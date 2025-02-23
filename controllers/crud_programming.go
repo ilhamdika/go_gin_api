@@ -28,6 +28,29 @@ func CreateProgrammingLanguage(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
+
+	missingFields := make(map[string]string)
+	if newLanguage.Language == "" {
+		missingFields["language"] = "Language harus diinput"
+	}
+	if newLanguage.Appeared == 0 {
+		missingFields["appeared"] = "Appeared harus diinput"
+	}
+	if len(newLanguage.Created) == 0 {
+		missingFields["created"] = "Created harus diinput"
+	}
+	if len(newLanguage.Relation.InfluencedBy) == 0 {
+		missingFields["influenced-by"] = "Influenced-by harus diinput"
+	}
+	if len(newLanguage.Relation.Influences) == 0 {
+		missingFields["influences"] = "Influences harus diinput"
+	}
+
+	if len(missingFields) > 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": missingFields})
+		return
+	}
+
 	languages = append(languages, newLanguage)
 	c.JSON(http.StatusCreated, newLanguage)
 }
@@ -43,6 +66,29 @@ func UpdateProgrammingLanguage(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
+
+	missingFields := make(map[string]string)
+	if updatedLanguage.Language == "" {
+		missingFields["language"] = "Language harus diinput"
+	}
+	if updatedLanguage.Appeared == 0 {
+		missingFields["appeared"] = "Appeared harus diinput"
+	}
+	if len(updatedLanguage.Created) == 0 {
+		missingFields["created"] = "Created harus diinput"
+	}
+	if len(updatedLanguage.Relation.InfluencedBy) == 0 {
+		missingFields["influenced-by"] = "Influenced-by harus diinput"
+	}
+	if len(updatedLanguage.Relation.Influences) == 0 {
+		missingFields["influences"] = "Influences harus diinput"
+	}
+
+	if len(missingFields) > 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": missingFields})
+		return
+	}
+
 	languages[id] = updatedLanguage
 	c.JSON(http.StatusOK, updatedLanguage)
 }
