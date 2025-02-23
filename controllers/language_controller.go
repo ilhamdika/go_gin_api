@@ -6,7 +6,11 @@ import (
 	"nayaka/models"
 )
 
-func GetStruct(c *gin.Context) {
+func HomeHandler(c *gin.Context) {
+	c.String(http.StatusOK, "Hello Go developers")
+}
+
+func GetProgrammingLanguage(c *gin.Context) {
 	lang := models.ProgrammingLanguage{
 		Language:       "C",
 		Appeared:       1972,
