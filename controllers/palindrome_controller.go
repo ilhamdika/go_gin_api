@@ -6,10 +6,6 @@ import (
 	"strings"
 )
 
-type RequestBody struct {
-	Text string `json:"text" binding:"required"`
-}
-
 func isPalindrome(text string) bool {
 	cleanText := strings.ToLower(strings.ReplaceAll(text, " ", ""))
 	length := len(cleanText)
@@ -22,16 +18,16 @@ func isPalindrome(text string) bool {
 }
 
 func CheckPalindrome(c *gin.Context) {
-	var reqBody RequestBody
-
-	if err := c.ShouldBindJSON(&reqBody); err != nil {
+	text := c.Query("text")
+	if text == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Text tidak boleh kosong"})
 		return
 	}
 
-	result := isPalindrome(reqBody.Text)
-	c.JSON(http.StatusOK, gin.H{
-		"text":      reqBody.Text,
-		"palindrome": result,
-	})
+	result := isPalindrome(text)
+	if result {
+		c.JSON(http.StatusOK, gin.H{"result": "Palindrome"})
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"result": "Bukan Palindrome"})
+	}
 }

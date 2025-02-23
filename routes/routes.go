@@ -6,7 +6,7 @@ import (
 )
 
 func SetupRoutes(r *gin.Engine) {
-	r.POST("/palindrome", controllers.CheckPalindrome)
+	r.GET("/palindrome", controllers.CheckPalindrome)
 	r.GET("/struct", controllers.GetStruct)
 
 	r.GET("/", controllers.HomeHandler)
